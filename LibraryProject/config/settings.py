@@ -1,13 +1,18 @@
+import os
 from pathlib import Path
 
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-an3nr+%oxh!)-_nw*qs^8(3#2emrd&q088yz4d6jyn&_o4*iqb'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'your-secret-key-here'
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -15,8 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'bookshelf',  # ✅ Your actual app
+    'bookshelf',  # Your custom app
 ]
 
 MIDDLEWARE = [
@@ -38,6 +42,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -48,6 +53,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -55,6 +61,7 @@ DATABASES = {
     }
 }
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -70,16 +77,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+# Static files
+STATIC_URL = '/static/'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = 'bookshelf.CustomUser'  # ✅ Only one, and correct
+# Custom user model
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
