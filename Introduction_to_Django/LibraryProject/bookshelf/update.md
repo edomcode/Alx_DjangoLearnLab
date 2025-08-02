@@ -1,7 +1,13 @@
-# Update Operation
+
+---
+
+## 📄 `update.md`
+
+```markdown
+# Update a Book title
 
 ```python
-book = Book.objects.get(title="1984")
-book.title = "Nineteen Eighty-Four"
+from bookshelf.models import Book
+book = Book.objects.get(title="Things Fall Apart")
+book.title = "Things Fall Apart (Updated)"
 book.save()
-print(Book.objects.get(id=book.id).title)  # Output: Nineteen Eighty-Four
