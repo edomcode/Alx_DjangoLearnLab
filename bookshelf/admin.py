@@ -1,11 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import Book  # Replace with your actual model name
 
-class CustomUserAdmin(UserAdmin):
-    model = CustomUser
-    list_display = ['email', 'is_staff', 'is_active']
-    ordering = ['email']
-    search_fields = ['email']
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'published_date')  # Customize fields
+    search_fields = ('title', 'author')
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Book, BookAdmin)

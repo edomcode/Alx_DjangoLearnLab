@@ -11,13 +11,16 @@ db.sqlite3
 media/
 /staticfiles/
 
-# VSCode or IDEs
+# VSCode & IDEs
 .vscode/
 .idea/
 
-# OS
+# OS-specific
 .DS_Store
 
 # Virtual Environments
 env/
 venv/
+
+# Git
+*.orig
