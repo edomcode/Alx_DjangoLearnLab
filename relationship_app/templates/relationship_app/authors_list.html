@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Authors</title></head>
+<body>
+    <h2>Authors</h2>
+    <ul>
+        {% for author in authors %}
+            <li>{{ author.name }}</li>
+        {% empty %}
+            <li>No authors found.</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</body>
+</html>
