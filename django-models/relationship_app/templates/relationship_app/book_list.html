@@ -1,0 +1,7 @@
+<!-- relationship_app/templates/relationship_app/book_list.html -->
+<h1>📚 Book List</h1>
+<ul>
+  {% for book in books %}
+    <li><a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a></li>
+  {% endfor %}
+</ul>
