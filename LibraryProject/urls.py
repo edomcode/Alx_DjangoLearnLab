@@ -3,5 +3,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('bookshelf.urls')),  # Include bookshelf app
+    path('bookshelf/', include('bookshelf.urls')),
 ]
