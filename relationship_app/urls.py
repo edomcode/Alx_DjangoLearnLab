@@ -1,8 +1,9 @@
-# django_models/urls.py
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('relationship_app.urls')),  # 🔗 Link your app's URLs
+    path('', views.home, name='home'),
+    path('authors/', views.authors_list, name='authors'),
+    path('books/', views.book_list, name='books'),
+    path('books/<int:pk>/', views.BookDetailView.as_view(), name='book_detail'),
 ]
