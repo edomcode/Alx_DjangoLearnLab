@@ -3,16 +3,10 @@
 import os
 import sys
 
-<<<<<<< HEAD
-def main():
-    """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
-=======
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_project.settings')
->>>>>>> 111d7b27811b79b42eca98a3eb19a1b5a2ca0848
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -23,9 +17,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 111d7b27811b79b42eca98a3eb19a1b5a2ca0848
 if __name__ == '__main__':
     main()

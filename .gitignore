@@ -19,3 +19,7 @@ db.sqlite3
 # Virtual Environments
 env/
 venv/
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> 111d7b27811b79b42eca98a3eb19a1b5a2ca0848
