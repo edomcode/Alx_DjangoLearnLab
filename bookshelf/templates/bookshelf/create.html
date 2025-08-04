@@ -1,0 +1,10 @@
+<h1>Add a New Book</h1>
+<form method="post">
+  {% csrf_token %}
+  Title: <input type="text" name="title"><br>
+  Author: <input type="text" name="author"><br>
+  Published Date: <input type="date" name="published_date"><br>
+  ISBN: <input type="text" name="isbn"><br>
+  <button type="submit">Create</button>
+</form>
+<a href="{% url 'list_books' %}">Back to list</a>
