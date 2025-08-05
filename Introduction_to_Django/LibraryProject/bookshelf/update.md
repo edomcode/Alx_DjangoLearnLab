@@ -1,13 +1,3 @@
+book = Book.objects.get(title="1984") book.title = "Nineteen Eighty-Four" book.save() print(book.title)
 
----
-
-## 📄 `update.md`
-
-```markdown
-# Update a Book title
-
-```python
-from bookshelf.models import Book
-book = Book.objects.get(title="Things Fall Apart")
-book.title = "Things Fall Apart (Updated)"
-book.save()
+Output: Nineteen Eighty-Four
