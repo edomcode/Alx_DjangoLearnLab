@@ -34,7 +34,7 @@ def register_view(request):
             return redirect('list_books')
     else:
         form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 
 def register(request):
@@ -43,10 +43,10 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log in the user after registration
-            return redirect('book_list')  # Or any page
+            return redirect('list_books')  # Fixed redirect to use correct URL name
     else:
         form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 
 
