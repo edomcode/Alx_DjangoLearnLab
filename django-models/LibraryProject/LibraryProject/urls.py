@@ -14,10 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
-from . import views
+
+from django.contrib import admin
+from django.urls import path, include
+from django.http import HttpResponse
+
+def test_home(request):
+    return HttpResponse("It works directly from project URLs!")
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Example view
+    path('admin/', admin.site.urls),
+    path('', test_home),  # test view for root path
+    path('relationship/', include('relationship_app.urls')),  # Your app routes
 ]
-

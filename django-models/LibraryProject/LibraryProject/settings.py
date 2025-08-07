@@ -37,10 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-'LibraryProject.relationship_app',
-
-
+    'bookshelf',
+    'relationship_app',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +52,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
-
 
 TEMPLATES = [
     {
