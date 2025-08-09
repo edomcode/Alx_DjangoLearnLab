@@ -55,8 +55,8 @@ class AuthorListCreateView(generics.ListCreateAPIView):
     # Configure filter backends
     filter_backends = [
         DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter
+        filters.SearchFilter,
+        filters.OrderingFilter
     ]
 
     # Use custom filter class
@@ -156,8 +156,8 @@ class BookListView(generics.ListAPIView):
     # Configure filter backends
     filter_backends = [
         DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter
+        filters.SearchFilter,
+        filters.OrderingFilter
     ]
 
     # Use custom filter class for advanced filtering
@@ -166,12 +166,12 @@ class BookListView(generics.ListAPIView):
     # Basic filterset fields for simple filtering
     filterset_fields = ['title', 'author', 'publication_year']
 
-    # Search configuration
+    # Search configuration - Enable search functionality on Book model fields (title and author)
     search_fields = [
-        'title',
-        'author__name',
-        '=title',  # Exact match option
-        '^title',  # Starts with option
+        'title',           # Search in book title field
+        'author__name',    # Search in author name field
+        '=title',          # Exact match option for title
+        '^title',          # Starts with option for title
     ]
 
     # Ordering configuration
