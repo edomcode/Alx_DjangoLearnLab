@@ -20,4 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    # Additional URL patterns for the advanced API project
+    path('books/', include('api.urls')),  # Alternative books access
+    path('authors/', include('api.urls')),  # Alternative authors access
 ]
