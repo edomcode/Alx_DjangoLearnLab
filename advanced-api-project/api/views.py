@@ -2,7 +2,9 @@ from rest_framework import generics, status, permissions, filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
 from .models import Author, Book
@@ -53,8 +55,8 @@ class AuthorListCreateView(generics.ListCreateAPIView):
     # Configure filter backends
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter
+        SearchFilter,
+        OrderingFilter
     ]
 
     # Use custom filter class
@@ -154,12 +156,15 @@ class BookListView(generics.ListAPIView):
     # Configure filter backends
     filter_backends = [
         DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter
+        SearchFilter,
+        OrderingFilter
     ]
 
     # Use custom filter class for advanced filtering
     filterset_class = BookFilter
+
+    # Basic filterset fields for simple filtering
+    filterset_fields = ['title', 'author', 'publication_year']
 
     # Search configuration
     search_fields = [
