@@ -283,6 +283,93 @@ class BookAPITestCase(APITestCase):
         response = self.client.delete(self.book_delete_url(9999))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_book_create_with_login(self):
+        """
+        Test book creation using client.login method.
+
+        This test demonstrates using Django's session-based authentication
+        instead of token authentication for testing.
+
+        Expected: 201 Created with book data
+        """
+        # Use client.login instead of force_authenticate
+        login_successful = self.client.login(
+            username=self.user.username,
+            password='testpass123'
+        )
+        self.assertTrue(login_successful)
+
+        book_data = {
+            'title': 'Book Created with Login',
+            'publication_year': 2023,
+            'author': self.author1.id
+        }
+
+        response = self.client.post(self.book_create_url, book_data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('book', response.data)
+        self.assertEqual(response.data['book']['title'], 'Book Created with Login')
+
+        # Verify book was created in database
+        self.assertTrue(Book.objects.filter(title='Book Created with Login').exists())
+
+    def test_book_update_with_login(self):
+        """
+        Test book update using client.login method.
+
+        Expected: 200 OK with updated book data
+        """
+        # Use client.login for session-based authentication
+        login_successful = self.client.login(
+            username=self.user.username,
+            password='testpass123'
+        )
+        self.assertTrue(login_successful)
+
+        book_data = {
+            'title': 'Updated with Login Method',
+            'publication_year': 1997,
+            'author': self.author1.id
+        }
+
+        response = self.client.put(self.book_update_url(self.book1.id), book_data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['book']['title'], 'Updated with Login Method')
+
+        # Verify book was updated in database
+        updated_book = Book.objects.get(id=self.book1.id)
+        self.assertEqual(updated_book.title, 'Updated with Login Method')
+
+    def test_book_delete_with_login(self):
+        """
+        Test book deletion using client.login method.
+
+        Expected: 200 OK with deletion confirmation
+        """
+        # Create a book to delete
+        test_book = Book.objects.create(
+            title='Book to Delete with Login',
+            publication_year=2023,
+            author=self.author1
+        )
+
+        # Use client.login for authentication
+        login_successful = self.client.login(
+            username=self.user.username,
+            password='testpass123'
+        )
+        self.assertTrue(login_successful)
+
+        response = self.client.delete(self.book_delete_url(test_book.id))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('message', response.data)
+
+        # Verify book was deleted from database
+        self.assertFalse(Book.objects.filter(id=test_book.id).exists())
+
 
 class BookFilteringTestCase(APITestCase):
     """
@@ -587,6 +674,32 @@ class AuthorAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertIn('Rowling', response.data[0]['name'])
+
+    def test_author_create_with_login(self):
+        """
+        Test author creation using client.login method.
+
+        This test demonstrates session-based authentication for author creation.
+
+        Expected: 201 Created with author data
+        """
+        # Use client.login for session-based authentication
+        login_successful = self.client.login(
+            username=self.user.username,
+            password='testpass123'
+        )
+        self.assertTrue(login_successful)
+
+        author_data = {'name': 'Author Created with Login'}
+
+        response = self.client.post(self.author_list_url, author_data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['name'], 'Author Created with Login')
+        self.assertEqual(response.data['books_count'], 0)
+
+        # Verify author was created in database
+        self.assertTrue(Author.objects.filter(name='Author Created with Login').exists())
 
 
 class APIOverviewTestCase(APITestCase):
