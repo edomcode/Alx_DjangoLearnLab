@@ -9,3 +9,42 @@
 <a href="{% url 'post-delete' post.pk %}">Delete</a> |
 <a href="{% url 'post-list' %}">Back to List</a>
 {% endblock %}
+
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+<p>Author: {{ post.author.username }} | Created at: {{ post.created_at }}</p>
+
+<hr>
+
+
+<h3>Comments ({{ post.comments.count }})</h3>
+
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <p><strong>{{ comment.author.username }}</strong> said:</p>
+        <p>{{ comment.content }}</p>
+        <p><small>Posted at {{ comment.created_at }}</small></p>
+
+       
+        {% if comment.author == user %}
+            <a href="{% url 'comment-update' comment.pk %}">Edit</a> |
+            <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+    <hr>
+{% empty %}
+    <p>No comments yet. Be the first to comment!</p>
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+    <h4>Add a Comment</h4>
+    <form method="post" action="{% url 'comment-create' post.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+{% endif %}
+
