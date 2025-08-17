@@ -4,7 +4,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from .models import Post, Comment
-from .forms import PostForm, CommentForm   
+from .forms import PostForm, CommentForm  
+
+from django.db.models import Q
+from django.shortcuts import render
+
+
+
+def post_list(request):
+    query = request.GET.get('q')
+    posts = Post.objects.all()
+    if query:
+        posts = posts.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+
+def search_posts(request):
+    query = request.GET.get("q")
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query) 
+        ).distinct()
+    return render(request, "blog/search_results.html", {"results": results, "query": query})
+
 
 class PostDetailView(DetailView):
     model = Post
