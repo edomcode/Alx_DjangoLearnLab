@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, Admin! You have full access to the system.</p>
+    <ul>
+        <li><a href="{% url 'list_books' %}">View All Books</a></li>
+        <li><a href="{% url 'add_book' %}">Add New Book</a></li>
+        <li>Manage Users</li>
+        <li>System Settings</li>
+    </ul>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+</body>
+</html>
