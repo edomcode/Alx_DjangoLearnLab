@@ -4,8 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from django.contrib.contenttypes.models import ContentType
+
 from accounts.models import CustomUser
-from .models import Post, Comment
+from notifications.models import Notification
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 
 class FeedView(APIView):
@@ -35,13 +38,31 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def like(self, request, pk=None):
         post = self.get_object()
-        post.likes.add(request.user)
+        user = request.user
+
+        # Create Like instance
+        like, created = Like.objects.get_or_create(user=user, post=post)
+
+        # Create Notification
+        if created and post.author != user:
+            Notification.objects.create(
+                recipient=post.author,
+                actor=user,
+                verb='liked your post',
+                content_type=ContentType.objects.get_for_model(post),
+                object_id=post.id
+            )
+
         return Response({'status': 'post liked'}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def unlike(self, request, pk=None):
         post = self.get_object()
-        post.likes.remove(request.user)
+        user = request.user
+
+        # Delete Like instance
+        Like.objects.filter(user=user, post=post).delete()
+
         return Response({'status': 'post unliked'}, status=status.HTTP_200_OK)
 
 class CommentViewSet(viewsets.ModelViewSet):
