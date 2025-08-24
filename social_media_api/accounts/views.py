@@ -6,9 +6,11 @@ from rest_framework.response import Response
 from .models import User as CustomUser
 from .serializers import RegisterSerializer, UserSerializer
 
+
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
+
 
 class LoginView(generics.GenericAPIView):
     serializer_class = UserSerializer
@@ -22,12 +24,14 @@ class LoginView(generics.GenericAPIView):
             return Response({"token": token.key})
         return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ProfileView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user
+
 
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -38,6 +42,7 @@ class FollowUserView(generics.GenericAPIView):
             return Response({"detail": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
         request.user.following.add(user_to_follow)
         return Response({"detail": f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
+
 
 class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
